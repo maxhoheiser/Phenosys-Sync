@@ -415,7 +415,7 @@ output_name_error(1,1:17) = output_file(2,18:34);
 filename = 'output_file.xlsx';
 writematrix(output_file,filename,'Sheet', 'Daten');
 if exist('output_data_ttl')==1
-    disp('yes')
+    disp('yes');
     output_file_ttl = [output_name_error; output_data_ttl];
     writematrix(output_file_ttl,filename,'Sheet', 'TTL not in Excel');
 end
