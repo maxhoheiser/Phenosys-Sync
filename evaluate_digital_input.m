@@ -156,9 +156,7 @@ for i = 1:length(ttl_event_1)
     end
 end
 clear ('i', 'input');
-        
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% copy consequtive whole trials with timestamps
+
 ttl_event_1_1 = []
 for i = 1:length(ttl_event_1)
     if ttl_event_1(i,3) == 1;
@@ -166,6 +164,10 @@ for i = 1:length(ttl_event_1)
         ttl_event_1_1(len+1,:) = ttl_event_1(i,:);
     end
 end
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% copy consequtive whole trials with timestamps
+
 
 %ttl_event_1_trials structure
 %
@@ -423,6 +425,7 @@ writematrix(ttl_event_1_1,filename,'Sheet','TTL Signals');
 writematrix(excel,filename,'Sheet','Excel Signals');
 clear('j','k','l');
 
+
 %% detailed time correlation
 ground_truth = [];
 %1 = time ms for phenosys clock
@@ -436,6 +439,9 @@ for i = 2:length(ground_truth)
 end
 
 
+
+
+
 ttl_corrected = [];
 % 1 = time in ms
 ttl_corrected(:,1) = ttl_event_1(:,4);
@@ -445,13 +451,22 @@ ttl_corrected(:,2) = ttl_event_1(:,3);
 ttl_corrected(:,3) = ttl_event_1(:,2);
 % 4 = behaviour state
 ttl_corrected(:,4) = ttl_event_1(:,5);
+ttl_corrected(:,6) = ttl_event_1(:,1);
 % 5 = time start relative to first complete colum
 %%%% --> X must me set manually %%%%%
 for i = 2:length(ttl_corrected)
-    x = ttl_corrected();
     ttl_corrected(i,5) = (ttl_corrected(i,1) - ttl_corrected(2,1));
     clear('i','x');
 end
+
+
+ground_truth(2,4) = ttl_corrected(2,5);
+ground_truth(2,5) = ttl_corrected(2,4);
+ground_truth(2,6) = ttl_corrected(2,3);
+ground_truth(2,7) = ttl_corrected(2,2);
+ground_truth(2,8) = ttl_corrected(2,1);
+ground_truth(2,12) = ttl_corrected(2,6);
+
 ground_truth(:,4) = 0;
 ground_truth_vec = zeros(size(ttl_corrected,1),1);
 for j = 1:6
@@ -464,6 +479,7 @@ for j = 1:6
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
+                ground_truth(j,12) = ttl_corrected(i,6);                
                 ground_truth_vec(i,1)=1;
             end
         end
@@ -480,6 +496,7 @@ for j = 7:length(ground_truth)-6
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
+                ground_truth(j,12) = ttl_corrected(i,6); 
                 ground_truth_vec(i,1)=1;
             end
         end
@@ -496,6 +513,7 @@ for j = length(ground_truth)-5:length(ground_truth)
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
+                ground_truth(j,12) = ttl_corrected(i,6);
                 ground_truth_vec(i,1)=1;
             end
         end
@@ -517,6 +535,9 @@ clear('i');
 ground_truth(:,10) = ground_truth(:,2)-ground_truth(:,5);
 
 ground_truth(:,11) = 1:length(ground_truth);
+
+filename_mat = 'ttl_times.mat';
+save(filename_mat,'ground_truth');
 
 output_name_5 = ["excel-time", "excel-behavior", "excel-tim-rel", "ttl-time-rel", "ttl-behavior", "ttl-dur", "ttl-0/1","ttl-time-true", "time-diff", "behavior-dif", "num"];
 output_file_ground_truth = [output_name_5; ground_truth];
@@ -634,6 +655,81 @@ output_file_find_not_in_excel = [output_name_4; find_not_in_excel];
 filename = 'output_file.xlsx';
 writematrix(output_file_find_not_in_excel,filename,'Sheet', 'find_not_in_excel');
 
+%% prepar ttl signal for spike analysis export
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Überflüssig !!!!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% create matrix with method 2 vor manual cleanup of ttl event
+ground_truth_1 = [];
+%1 = time ms for phenosys clock
+ground_truth_1(:,1) = excel(:,3);
+%2 = phenosys behaviour
+ground_truth_1(:,2) = excel(:,2);
+%3 = relative to beginning of first event
+for i = 2:length(ground_truth_1)
+    ground_truth_1(i,3) = (ground_truth_1(i,1) - ground_truth_1(2,1));
+    clear('i');
+end
+ground_truth_1(1,:)=[];
+
+ttl_corrected_1 = [];
+% 1 = time in ms
+ttl_corrected_1(:,1) = ttl_event_1_1(:,4);
+% 2 = length of ttl signal
+ttl_corrected_1(:,2) = ttl_event_1_1(:,3);
+% 3 = ttl signal yes / no
+ttl_corrected_1(:,3) = ttl_event_1_1(:,2);
+% 4 = behaviour state
+ttl_corrected_1(:,4) = ttl_event_1_1(:,5);
+ttl_corrected_1(:,6) = ttl_event_1_1(:,1);
+% 5 = time start relative to first complete colum
+%%%% --> X must me set manually %%%%%
+for i = 1:length(ttl_corrected_1)
+    % calculate begining of trials as 0
+    ttl_corrected_1(i,5) = (ttl_corrected_1(i,1) - ttl_corrected_1(1,1));
+    clear('i');
+end
+%ground_truth_1(:,4) = 0;
+ground_truth_1_vec = zeros(size(ttl_corrected_1,1),1);
+ground_truth_1(:,4) = 0;
+
+%
+
+for j = 1:6
+    for k = 1:40
+        check_vec=0;
+        for i = 1:length(ttl_corrected_1)
+            if test_fit(ttl_corrected_1(i,5),ground_truth_1(j,3),k) && ttl_corrected_1(i,2)==1 && ground_truth_1(j,4) == 0 && sum(ttl_corrected_1(i,5)==check_vec)==0
+                ground_truth_1(j,4) = ttl_corrected_1(i,5);
+                ground_truth_1(j,5) = ttl_corrected_1(i,4);
+                ground_truth_1(j,6) = ttl_corrected_1(i,3);
+                ground_truth_1(j,7) = ttl_corrected_1(i,2);
+                ground_truth_1(j,8) = ttl_corrected_1(i,1);
+                ground_truth_1(j,9) = ttl_corrected_1(i,6);
+                ground_truth_1_vec(i,1)=1;
+            end
+        end
+    end
+end
+
+for j = 7:length(ground_truth_1)-6
+    for k = 1:40
+        check_vec=ground_truth_1((j-6):1:(j+6),4);
+        for i = 1:length(ttl_corrected_1)
+            if test_fit(ttl_corrected_1(i,5),ground_truth_1(j,3),k) && ttl_corrected_1(i,2)==1 && ground_truth_1(j,4) == 0 && sum(ttl_corrected_1(i,5)==check_vec)==0
+                ground_truth_1(j,4) = ttl_corrected_1(i,5);
+                ground_truth_1(j,5) = ttl_corrected_1(i,4);
+                ground_truth_1(j,6) = ttl_corrected_1(i,3);
+                ground_truth_1(j,7) = ttl_corrected_1(i,2);
+                ground_truth_1(j,8) = ttl_corrected_1(i,1);
+                ground_truth_1(j,9) = ttl_corrected_1(i,6);
+                ground_truth_1_vec(i,1)=1;
+            end
+        end
+    end
+end
 
 %% plotting methode 2
 folder = 'figures/alignment/'
