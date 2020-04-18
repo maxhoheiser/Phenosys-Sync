@@ -53,7 +53,7 @@ for j = 1:6
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
-                ground_truth(j,12) = ttl_corrected(i,6);                
+                ground_truth(j,15) = ttl_corrected(i,6);                
                 ground_truth_vec(i,1)=1;
             end
         end
@@ -70,7 +70,7 @@ for j = 7:length(ground_truth)-6
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
-                ground_truth(j,12) = ttl_corrected(i,6); 
+                ground_truth(j,15) = ttl_corrected(i,6); 
                 ground_truth_vec(i,1)=1;
             end
         end
@@ -87,7 +87,7 @@ for j = length(ground_truth)-5:length(ground_truth)
                 ground_truth(j,6) = ttl_corrected(i,3);
                 ground_truth(j,7) = ttl_corrected(i,2);
                 ground_truth(j,8) = ttl_corrected(i,1);
-                ground_truth(j,12) = ttl_corrected(i,6);
+                ground_truth(j,15) = ttl_corrected(i,6);
                 ground_truth_vec(i,1)=1;
             end
         end
