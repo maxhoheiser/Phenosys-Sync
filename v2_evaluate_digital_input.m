@@ -1,6 +1,6 @@
 folder = 'C:\Users\Nutzer\Google Drive\1 Uni\1.3 Uni Projekte\Masterarbeit Laborarbeit Neuroscience\Data Analysis\JG14_190621';
 
-ttl_event_1 = loadDigitalDat(folder,1)
+ttl_event_1 = loadDigitalDat(folder,1);
 [ttl_event_1, ttl_event_1_1] = convertToBehavior(ttl_event_1);
 ttl_event_1_trials_2 = convertToTrials(ttl_event_1_1);
 [excel, excel_trials] = readExcel(folder);
@@ -26,9 +26,14 @@ find_not_in_excel = findNotInExcel(output_data, output_data_ttl, ground_truth);
 compare_2_methods = compare2Methods(output_data,ground_truth);
 
 % write to file
-dir_char = convertStringsToChars(strcat(folder,"ttl_behavior"));
+dir_char = convertStringsToChars(strcat(folder,"\ttl_behavior"));
 save(dir_char,'ground_truth');
+dir_char = convertStringsToChars(strcat(folder,"\ttl_behavior_trials"));
+save(dir_char,'ground_truth_trial');
 
+%writeFiles(directory,filename,vargin)
+% vargin = [output_data, output_data_ttl, ttl_event_1_1, excel,
+% ground_truth, ground_truth_trial, compare_2_methods, find_not_in_excel]
 
 
 
