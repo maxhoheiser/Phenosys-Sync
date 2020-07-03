@@ -166,7 +166,7 @@ for i = 1:length(ttl_event_1)
 end
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% copy consequtive whole trials with timestamps
+s%% copy consequtive whole trials with timestamps
 
 
 %ttl_event_1_trials structure
