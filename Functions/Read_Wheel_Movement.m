@@ -15,7 +15,7 @@ function [Final_Position,Overall_Movement]=Read_Wheel_Movement(TTL1,TTL2)
 %                  wheel stopped, relative to the initial accounted as 0
 
 % Overall_Movement = All the registered positions after a movement. It is
-%                    NOT the movement sample by sample, but just when the
+%                    NOT the movement sample by sample, but just when the 
 %                    animal moves
 
 %% Variable initialisation
