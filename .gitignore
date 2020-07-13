@@ -3,7 +3,9 @@ __pycache__/*
 .ipynb_checkpoints/*
 synchronisation-analysis/Evaluate Digital Input-hist/*
 Evaluate Digital Input-hist/evaluate_digital_input*
-
+Archiv/*
+*.xlsx
+*.csv
 *.asv
 *.ini
 *.ico
